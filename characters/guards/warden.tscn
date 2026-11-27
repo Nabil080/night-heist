@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://characters/guards/guard.tscn" id="1_guard"]
+[ext_resource type="SpriteFrames" path="res://characters/guards/warden_frames.tres" id="2_frames"]
+[ext_resource type="Script" path="res://characters/guards/behaviors/guard_loot_behavior.gd" id="3_behavior"]
+
+[node name="Warden" instance=ExtResource("1_guard")]
+
+[node name="AnimatedSprite2D" parent="Visuals" index="0"]
+sprite_frames = ExtResource("2_frames")
+
+[node name="GuardBrain" parent="." index="5"]
+default_behavior = &"GuardLoot"
+
+[node name="GuardLoot" type="Node" parent="GuardBrain" index="3"]
+script = ExtResource("3_behavior")
+speed_multiplier = 0.9

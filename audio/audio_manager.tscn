@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://bfd7rkvafibty"]
+
+[ext_resource type="Script" path="res://audio/audio_manager.gd" id="1_script"]
+[ext_resource type="AudioStream" path="res://audio/sounds/night_ambience.wav" id="night_ambience"]
+[ext_resource type="AudioStream" path="res://audio/sounds/alert_loop.wav" id="alert_loop"]
+[ext_resource type="AudioStream" path="res://audio/sounds/loot_0.wav" id="loot_0"]
+[ext_resource type="AudioStream" path="res://audio/sounds/loot_1.wav" id="loot_1"]
+[ext_resource type="AudioStream" path="res://audio/sounds/smoke_pickup.wav" id="smoke_pickup"]
+[ext_resource type="AudioStream" path="res://audio/sounds/smoke_deploy.wav" id="smoke_deploy"]
+[ext_resource type="AudioStream" path="res://audio/sounds/spotted.wav" id="spotted"]
+[ext_resource type="AudioStream" path="res://audio/sounds/caught.wav" id="caught"]
+[ext_resource type="AudioStream" path="res://audio/sounds/exit_open.wav" id="exit_open"]
+[ext_resource type="AudioStream" path="res://audio/sounds/level_done.wav" id="level_done"]
+[ext_resource type="AudioStream" path="res://audio/sounds/game_over.wav" id="game_over"]
+[ext_resource type="AudioStream" path="res://audio/sounds/victory.wav" id="victory"]
+[ext_resource type="AudioStream" path="res://audio/sounds/confirm.wav" id="confirm"]
+
+[node name="GlobalAudioManager" type="Node"]
+process_mode = 3
+script = ExtResource("1_script")
+
+[node name="Clips" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="NightAmbience" type="AudioStreamPlayer" parent="Clips"]
+stream = ExtResource("night_ambience")
+
+[node name="AlertLoop" type="AudioStreamPlayer" parent="Clips"]
+stream = ExtResource("alert_loop")
+
+[node name="OneShots" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Loot0" type="AudioStreamPlayer" parent="OneShots"]
+stream = ExtResource("loot_0")
+
+[node name="Loot1" type="AudioStreamPlayer" parent="OneShots"]
+stream = ExtResource("loot_1")
+
+[node name="SmokePickup" type="AudioStreamPlayer" parent="OneShots"]
+stream = ExtResource("smoke_pickup")
+
+[node name="SmokeDeploy" type="AudioStreamPlayer" parent="OneShots"]
+stream = ExtResource("smoke_deploy")
+
+[node name="Spotted" type="AudioStreamPlayer" parent="OneShots"]
+stream = ExtResource("spotted")
+
+[node name="Caught" type="AudioStreamPlayer" parent="OneShots"]
+stream = ExtResource("caught")
+
+[node name="ExitOpen" type="AudioStreamPlayer" parent="OneShots"]
+stream = ExtResource("exit_open")
+
+[node name="LevelDone" type="AudioStreamPlayer" parent="OneShots"]
+stream = ExtResource("level_done")
+
+[node name="GameOver" type="AudioStreamPlayer" parent="OneShots"]
+stream = ExtResource("game_over")
+
+[node name="Victory" type="AudioStreamPlayer" parent="OneShots"]
+stream = ExtResource("victory")
+
+[node name="Confirm" type="AudioStreamPlayer" parent="OneShots"]
+stream = ExtResource("confirm")

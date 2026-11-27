@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://levels/exit_door.gd" id="1_door"]
+[ext_resource type="Texture2D" path="res://levels/props.png" id="2_props"]
+[ext_resource type="Script" path="res://components/blink_component.gd" id="3_blink"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(10, 10)
+
+[node name="ExitDoor" type="Node2D"]
+z_index = -5
+script = ExtResource("1_door")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_props")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="BlinkComponent" type="Node" parent="Sprite2D"]
+script = ExtResource("3_blink")
+interval = 0.25
+min_opacity = 0.5
+auto_start = false
+
+[node name="DoorArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorArea"]
+shape = SubResource("RectangleShape2D_door")

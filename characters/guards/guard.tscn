@@ -1,0 +1,121 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://characters/guards/guard.gd" id="1_guard"]
+[ext_resource type="SpriteFrames" path="res://characters/guards/patroller_frames.tres" id="2_frames"]
+[ext_resource type="Script" path="res://components/movement_component.gd" id="3_movement"]
+[ext_resource type="Script" path="res://components/path_follow_component.gd" id="4_path"]
+[ext_resource type="Script" path="res://components/vision_component.gd" id="5_vision"]
+[ext_resource type="Script" path="res://components/catch_component.gd" id="6_catch"]
+[ext_resource type="Script" path="res://characters/guards/guard_brain.gd" id="7_brain"]
+[ext_resource type="Script" path="res://characters/guards/behaviors/chase_behavior.gd" id="8_chase"]
+[ext_resource type="Script" path="res://characters/guards/behaviors/search_behavior.gd" id="9_search"]
+[ext_resource type="Script" path="res://characters/guards/behaviors/stunned_behavior.gd" id="10_stunned"]
+[ext_resource type="Script" path="res://components/direction_indicator_component.gd" id="11_direction"]
+[ext_resource type="Script" path="res://components/target_indicator_component.gd" id="12_target"]
+[ext_resource type="Script" path="res://components/path_indicator_component.gd" id="13_path_indicator"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_guard"]
+radius = 4.0
+
+[node name="Guard" type="Node2D" groups=["guard"]]
+z_index = 4
+script = ExtResource("1_guard")
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals"]
+unique_name_in_owner = true
+sprite_frames = ExtResource("2_frames")
+animation = &"down"
+
+[node name="StateIcon" type="Label" parent="Visuals"]
+unique_name_in_owner = true
+offset_left = -8.0
+offset_top = -24.0
+offset_right = 8.0
+offset_bottom = -9.0
+theme_override_colors/font_color = Color(1, 0.9, 0.35, 1)
+horizontal_alignment = 1
+
+[node name="BehaviorLabel" type="Label" parent="Visuals"]
+unique_name_in_owner = true
+visible = false
+offset_left = -30.0
+offset_top = 6.0
+offset_right = 30.0
+offset_bottom = 16.0
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+
+[node name="Debug" type="Node2D" parent="Visuals"]
+unique_name_in_owner = true
+visible = false
+
+[node name="DirectionIndicatorComponent" type="Polygon2D" parent="Visuals/Debug" node_paths=PackedStringArray("_movement_component")]
+position = Vector2(4, 0)
+color = Color(0.71, 0, 0, 1)
+polygon = PackedVector2Array(8, -3, 8, 2, 9, 2, 9, 1, 10, 1, 10, 0, 11, 0, 11, -1, 10, -1, 10, -2, 9, -2, 9, -3)
+script = ExtResource("11_direction")
+_movement_component = NodePath("../../../MovementComponent")
+_default_orientation = Vector2i(1, 0)
+
+[node name="TargetIndicatorComponent" type="Node2D" parent="Visuals/Debug" node_paths=PackedStringArray("_path_follow_component")]
+top_level = true
+script = ExtResource("12_target")
+color = Color(1, 0, 0, 1)
+_path_follow_component = NodePath("../../../PathFollowComponent")
+
+[node name="PathIndicatorComponent" type="Node2D" parent="Visuals/Debug" node_paths=PackedStringArray("_path_follow_component")]
+script = ExtResource("13_path_indicator")
+color = Color(0.71, 0, 0, 0.82)
+_path_follow_component = NodePath("../../../PathFollowComponent")
+
+[node name="VisionComponent" type="Node2D" parent="." node_paths=PackedStringArray("movement_component")]
+unique_name_in_owner = true
+z_index = -3
+z_as_relative = false
+script = ExtResource("5_vision")
+movement_component = NodePath("../MovementComponent")
+
+[node name="CatchComponent" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("6_catch")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CatchComponent"]
+shape = SubResource("CircleShape2D_guard")
+
+[node name="MovementComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_movement")
+speed = 44.0
+
+[node name="PathFollowComponent" type="Node" parent="." node_paths=PackedStringArray("movement_component")]
+unique_name_in_owner = true
+script = ExtResource("4_path")
+movement_component = NodePath("../MovementComponent")
+
+[node name="GuardBrain" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("7_brain")
+
+[node name="Chase" type="Node" parent="GuardBrain"]
+script = ExtResource("8_chase")
+speed_multiplier = 1.15
+reacts_to_thief = false
+is_alert = true
+icon = "!"
+
+[node name="Search" type="Node" parent="GuardBrain"]
+script = ExtResource("9_search")
+speed_multiplier = 0.9
+icon = "?"
+
+[node name="Stunned" type="Node" parent="GuardBrain"]
+script = ExtResource("10_stunned")
+speed_multiplier = 0.0
+reacts_to_thief = false
+can_catch = false
+is_blind = true
+animation_override = &"stunned"

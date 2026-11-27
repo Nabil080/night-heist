@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://interface/debug/debug_slider.gd" id="1_slider"]
+
+[node name="DebugSlider" type="VBoxContainer"]
+theme_override_constants/separation = 0
+script = ExtResource("1_slider")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+
+[node name="HSlider" type="HSlider" parent="."]
+layout_mode = 2

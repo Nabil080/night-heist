@@ -1,0 +1,607 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://interface/debug/debug_menu.gd" id="menu"]
+[ext_resource type="Script" path="res://interface/debug/debug_overlay.gd" id="overlay"]
+[ext_resource type="Script" path="res://interface/debug/debug_toggle.gd" id="toggle"]
+[ext_resource type="PackedScene" path="res://interface/debug/debug_slider.tscn" id="slider"]
+[ext_resource type="Script" path="res://interface/debug/info_tab.gd" id="info"]
+[ext_resource type="Script" path="res://interface/debug/thief_tab.gd" id="thief"]
+[ext_resource type="Script" path="res://interface/debug/guards_tab.gd" id="guards"]
+[ext_resource type="Script" path="res://interface/debug/room_tab.gd" id="room"]
+[ext_resource type="Script" path="res://interface/debug/view_tab.gd" id="view"]
+
+[sub_resource type="StyleBoxFlat" id="Tab_selected"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+bg_color = Color(0.3, 0.27, 0.45, 1)
+
+[sub_resource type="StyleBoxFlat" id="Tab_unselected"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+bg_color = Color(0.12, 0.11, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="Panel_back"]
+content_margin_left = 4.0
+content_margin_right = 2.0
+bg_color = Color(0.07, 0.06, 0.12, 0.96)
+
+[sub_resource type="StyleBoxFlat" id="Button_normal"]
+content_margin_left = 3.0
+content_margin_top = 2.0
+content_margin_right = 3.0
+content_margin_bottom = 2.0
+bg_color = Color(0.2, 0.18, 0.32, 1)
+
+[sub_resource type="StyleBoxFlat" id="Button_hover"]
+content_margin_left = 3.0
+content_margin_top = 2.0
+content_margin_right = 3.0
+content_margin_bottom = 2.0
+bg_color = Color(0.32, 0.29, 0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="Button_pressed"]
+content_margin_left = 3.0
+content_margin_top = 2.0
+content_margin_right = 3.0
+content_margin_bottom = 2.0
+bg_color = Color(0.82, 0.63, 0.3, 1)
+
+[sub_resource type="Theme" id="Theme_debug"]
+default_font_size = 12
+Button/colors/font_hover_pressed_color = Color(0.07, 0.06, 0.12, 1)
+Button/colors/font_pressed_color = Color(0.07, 0.06, 0.12, 1)
+Button/styles/hover = SubResource("Button_hover")
+Button/styles/hover_pressed = SubResource("Button_pressed")
+Button/styles/normal = SubResource("Button_normal")
+Button/styles/pressed = SubResource("Button_pressed")
+PanelContainer/styles/panel = SubResource("Panel_back")
+TabContainer/styles/tab_hovered = SubResource("Tab_unselected")
+TabContainer/styles/tab_selected = SubResource("Tab_selected")
+TabContainer/styles/tab_unselected = SubResource("Tab_unselected")
+
+[node name="DebugMenu" type="CanvasLayer"]
+script = ExtResource("menu")
+process_mode = 3
+layer = 20
+
+[node name="DebugOverlay" type="Node2D" parent="."]
+visible = false
+script = ExtResource("overlay")
+
+[node name="Panel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+offset_left = 172.0
+offset_right = 400.0
+offset_bottom = 296.0
+theme = SubResource("Theme_debug")
+
+[node name="Tabs" type="TabContainer" parent="Panel"]
+unique_name_in_owner = true
+theme_override_font_sizes/font_size = 10
+layout_mode = 2
+current_tab = 0
+
+[node name="Info" type="ScrollContainer" parent="Panel/Tabs"]
+script = ExtResource("info")
+layout_mode = 2
+
+[node name="Items" type="VBoxContainer" parent="Panel/Tabs/Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="InfoLabel" type="Label" parent="Panel/Tabs/Info/Items"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+autowrap_mode = 2
+
+[node name="Thief" type="ScrollContainer" parent="Panel/Tabs"]
+script = ExtResource("thief")
+layout_mode = 2
+
+[node name="Items" type="VBoxContainer" parent="Panel/Tabs/Thief"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="TitleCheats" type="Label" parent="Panel/Tabs/Thief/Items"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.8, 0.29, 1)
+text = "Cheats"
+
+[node name="is_invincible" type="Button" parent="Panel/Tabs/Thief/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Invincible"
+setting = &"is_invincible"
+
+[node name="is_invisible" type="Button" parent="Panel/Tabs/Thief/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Invisible to guards"
+setting = &"is_invisible"
+
+[node name="walks_through_walls" type="Button" parent="Panel/Tabs/Thief/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Walk through walls"
+setting = &"walks_through_walls"
+
+[node name="has_infinite_smoke" type="Button" parent="Panel/Tabs/Thief/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Infinite smoke"
+setting = &"has_infinite_smoke"
+
+[node name="teleport_on_click" type="Button" parent="Panel/Tabs/Thief/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Click to teleport"
+setting = &"teleport_on_click"
+
+[node name="ThiefSpeed" parent="Panel/Tabs/Thief/Items" instance=ExtResource("slider")]
+layout_mode = 2
+title = "Speed x"
+min_value = 0.25
+max_value = 3.0
+step = 0.25
+setting = &"thief_speed"
+
+[node name="TitleActions" type="Label" parent="Panel/Tabs/Thief/Items"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.8, 0.29, 1)
+text = "Actions"
+
+[node name="Actions" type="GridContainer" parent="Panel/Tabs/Thief/Items"]
+layout_mode = 2
+columns = 2
+
+[node name="AddLife" type="Button" parent="Panel/Tabs/Thief/Items/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+1 life"
+
+[node name="AddSmoke" type="Button" parent="Panel/Tabs/Thief/Items/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+1 smoke"
+
+[node name="AddScore" type="Button" parent="Panel/Tabs/Thief/Items/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+1000"
+
+[node name="ThrowSmoke" type="Button" parent="Panel/Tabs/Thief/Items/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Throw"
+
+[node name="BackToStart" type="Button" parent="Panel/Tabs/Thief/Items/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "To start"
+
+[node name="Guards" type="ScrollContainer" parent="Panel/Tabs"]
+script = ExtResource("guards")
+layout_mode = 2
+
+[node name="Items" type="VBoxContainer" parent="Panel/Tabs/Guards"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="TitleAllguards" type="Label" parent="Panel/Tabs/Guards/Items"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.8, 0.29, 1)
+text = "All guards"
+
+[node name="guards_frozen" type="Button" parent="Panel/Tabs/Guards/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Frozen"
+setting = &"guards_frozen"
+
+[node name="guards_blind" type="Button" parent="Panel/Tabs/Guards/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Blind"
+setting = &"guards_blind"
+
+[node name="GuardSpeed" parent="Panel/Tabs/Guards/Items" instance=ExtResource("slider")]
+layout_mode = 2
+title = "Speed x"
+min_value = 0.25
+max_value = 3.0
+step = 0.25
+setting = &"guard_speed"
+
+[node name="Orders" type="GridContainer" parent="Panel/Tabs/Guards/Items"]
+layout_mode = 2
+columns = 2
+
+[node name="StunAll" type="Button" parent="Panel/Tabs/Guards/Items/Orders"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Stun"
+
+[node name="AllChase" type="Button" parent="Panel/Tabs/Guards/Items/Orders"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Chase"
+
+[node name="AllSearch" type="Button" parent="Panel/Tabs/Guards/Items/Orders"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Search"
+
+[node name="AllDefault" type="Button" parent="Panel/Tabs/Guards/Items/Orders"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reset"
+
+[node name="TitleAddorremove" type="Label" parent="Panel/Tabs/Guards/Items"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.8, 0.29, 1)
+text = "Add or remove"
+
+[node name="Crew" type="GridContainer" parent="Panel/Tabs/Guards/Items"]
+layout_mode = 2
+columns = 2
+
+[node name="SpawnPatroller" type="Button" parent="Panel/Tabs/Guards/Items/Crew"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+Patrol"
+
+[node name="SpawnTracker" type="Button" parent="Panel/Tabs/Guards/Items/Crew"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+Tracker"
+
+[node name="SpawnWarden" type="Button" parent="Panel/Tabs/Guards/Items/Crew"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+Warden"
+
+[node name="RemoveLast" type="Button" parent="Panel/Tabs/Guards/Items/Crew"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "-Last"
+
+[node name="RemoveAll" type="Button" parent="Panel/Tabs/Guards/Items/Crew"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "-All"
+
+[node name="Room" type="ScrollContainer" parent="Panel/Tabs"]
+script = ExtResource("room")
+layout_mode = 2
+
+[node name="Items" type="VBoxContainer" parent="Panel/Tabs/Room"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="TitleGoto" type="Label" parent="Panel/Tabs/Room/Items"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.8, 0.29, 1)
+text = "Go to"
+
+[node name="Rooms" type="GridContainer" parent="Panel/Tabs/Room/Items"]
+layout_mode = 2
+columns = 2
+
+[node name="Room1" type="Button" parent="Panel/Tabs/Room/Items/Rooms"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Room 1"
+
+[node name="Room2" type="Button" parent="Panel/Tabs/Room/Items/Rooms"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Room 2"
+
+[node name="Room3" type="Button" parent="Panel/Tabs/Room/Items/Rooms"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Room 3"
+
+[node name="Restart" type="Button" parent="Panel/Tabs/Room/Items/Rooms"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Restart"
+
+[node name="skip_intro" type="Button" parent="Panel/Tabs/Room/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Skip room intro"
+setting = &"skip_intro"
+
+[node name="TitleLootanddoor" type="Label" parent="Panel/Tabs/Room/Items"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.8, 0.29, 1)
+text = "Loot and door"
+
+[node name="Loot" type="GridContainer" parent="Panel/Tabs/Room/Items"]
+layout_mode = 2
+columns = 2
+
+[node name="TakeHalf" type="Button" parent="Panel/Tabs/Room/Items/Loot"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Half loot"
+
+[node name="TakeAll" type="Button" parent="Panel/Tabs/Room/Items/Loot"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "All loot"
+
+[node name="OpenDoor" type="Button" parent="Panel/Tabs/Room/Items/Loot"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Open door"
+
+[node name="WinRoom" type="Button" parent="Panel/Tabs/Room/Items/Loot"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Win room"
+
+[node name="TitleEndings" type="Label" parent="Panel/Tabs/Room/Items"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.8, 0.29, 1)
+text = "Endings"
+
+[node name="Endings" type="GridContainer" parent="Panel/Tabs/Room/Items"]
+layout_mode = 2
+columns = 2
+
+[node name="LoseLife" type="Button" parent="Panel/Tabs/Room/Items/Endings"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Lose life"
+
+[node name="ForceGameOver" type="Button" parent="Panel/Tabs/Room/Items/Endings"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Game over"
+
+[node name="ForceVictory" type="Button" parent="Panel/Tabs/Room/Items/Endings"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Victory"
+
+[node name="ResetBest" type="Button" parent="Panel/Tabs/Room/Items/Endings"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reset best"
+
+[node name="TitleDifficulty" type="Label" parent="Panel/Tabs/Room/Items"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.8, 0.29, 1)
+text = "Difficulty"
+
+[node name="Presets" type="GridContainer" parent="Panel/Tabs/Room/Items"]
+layout_mode = 2
+columns = 2
+
+[node name="DifficultyEasy" type="Button" parent="Panel/Tabs/Room/Items/Presets"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Room 1"
+
+[node name="DifficultyNormal" type="Button" parent="Panel/Tabs/Room/Items/Presets"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Room 2"
+
+[node name="DifficultyHard" type="Button" parent="Panel/Tabs/Room/Items/Presets"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Room 3"
+
+[node name="DifficultySliders" type="VBoxContainer" parent="Panel/Tabs/Room/Items"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GuardSpeed" parent="Panel/Tabs/Room/Items/DifficultySliders" instance=ExtResource("slider")]
+layout_mode = 2
+title = "Guard speed"
+min_value = 10
+max_value = 150
+step = 2
+
+[node name="VisionRange" parent="Panel/Tabs/Room/Items/DifficultySliders" instance=ExtResource("slider")]
+layout_mode = 2
+title = "Vision cells"
+min_value = 0
+max_value = 15
+step = 1
+
+[node name="ChaseMemory" parent="Panel/Tabs/Room/Items/DifficultySliders" instance=ExtResource("slider")]
+layout_mode = 2
+title = "Chase memory"
+min_value = 0
+max_value = 10
+step = 0.5
+
+[node name="SearchTime" parent="Panel/Tabs/Room/Items/DifficultySliders" instance=ExtResource("slider")]
+layout_mode = 2
+title = "Search time"
+min_value = 0
+max_value = 20
+step = 0.5
+
+[node name="ScentLifetime" parent="Panel/Tabs/Room/Items/DifficultySliders" instance=ExtResource("slider")]
+layout_mode = 2
+title = "Scent time"
+min_value = 1
+max_value = 30
+step = 1
+
+[node name="AlarmRadius" parent="Panel/Tabs/Room/Items/DifficultySliders" instance=ExtResource("slider")]
+layout_mode = 2
+title = "Alarm radius"
+min_value = 0
+max_value = 30
+step = 1
+
+[node name="StunTime" parent="Panel/Tabs/Room/Items/DifficultySliders" instance=ExtResource("slider")]
+layout_mode = 2
+title = "Stun time"
+min_value = 0.5
+max_value = 15
+step = 0.5
+
+[node name="View" type="ScrollContainer" parent="Panel/Tabs"]
+script = ExtResource("view")
+layout_mode = 2
+
+[node name="Items" type="VBoxContainer" parent="Panel/Tabs/View"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="TitleShow" type="Label" parent="Panel/Tabs/View/Items"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.8, 0.29, 1)
+text = "Show"
+
+[node name="show_paths" type="Button" parent="Panel/Tabs/View/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Guard paths (F3)"
+setting = &"show_paths"
+
+[node name="show_states" type="Button" parent="Panel/Tabs/View/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Guard behaviors"
+setting = &"show_states"
+
+[node name="show_grid" type="Button" parent="Panel/Tabs/View/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "A* grid"
+setting = &"show_grid"
+
+[node name="show_flashlights" type="Button" parent="Panel/Tabs/View/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Flashlights"
+setting = &"show_flashlights"
+
+[node name="show_footprints" type="Button" parent="Panel/Tabs/View/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Footprints"
+setting = &"show_footprints"
+
+[node name="TitleTime" type="Label" parent="Panel/Tabs/View/Items"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.8, 0.29, 1)
+text = "Time"
+
+[node name="GameSpeed" parent="Panel/Tabs/View/Items" instance=ExtResource("slider")]
+layout_mode = 2
+title = "Game speed x"
+min_value = 0.1
+max_value = 4.0
+step = 0.1
+setting = &"game_speed"
+
+[node name="Time" type="GridContainer" parent="Panel/Tabs/View/Items"]
+layout_mode = 2
+columns = 2
+
+[node name="PauseGame" type="Button" parent="Panel/Tabs/View/Items/Time"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pause"
+
+[node name="StepFrame" type="Button" parent="Panel/Tabs/View/Items/Time"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Step"
+
+[node name="TitleSound" type="Label" parent="Panel/Tabs/View/Items"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.8, 0.29, 1)
+text = "Sound"
+
+[node name="mute_music" type="Button" parent="Panel/Tabs/View/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Mute music"
+setting = &"mute_music"
+
+[node name="mute_effects" type="Button" parent="Panel/Tabs/View/Items"]
+toggle_mode = true
+alignment = 0
+script = ExtResource("toggle")
+layout_mode = 2
+text = "Mute effects"
+setting = &"mute_effects"

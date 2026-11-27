@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DifficultySettings" format=3]
+
+[ext_resource type="Script" path="res://levels/difficulty_settings.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+guard_speed = 54.0
+vision_range = 8
+chase_memory = 2.0
+search_time = 6.0
+scent_lifetime = 10.0
+alarm_radius = 10
+stun_time = 3.5

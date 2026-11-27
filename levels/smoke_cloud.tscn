@@ -1,0 +1,42 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://levels/smoke_cloud.gd" id="1_smoke"]
+[ext_resource type="Texture2D" path="res://levels/props.png" id="2_props"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_smoke"]
+radius = 40.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_puff"]
+atlas = ExtResource("2_props")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="Gradient" id="Gradient_alpha"]
+colors = PackedColorArray(1, 1, 1, 0.38, 1, 1, 1, 0)
+
+[node name="SmokeCloud" type="Node2D"]
+z_index = 6
+script = ExtResource("1_smoke")
+
+[node name="SmokeArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SmokeArea"]
+shape = SubResource("CircleShape2D_smoke")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 22
+lifetime = 1.3
+one_shot = true
+explosiveness = 0.85
+texture = SubResource("AtlasTexture_puff")
+spread = 180.0
+gravity = Vector2(0, -8)
+initial_velocity_min = 8.0
+initial_velocity_max = 42.0
+damping_min = 12.0
+damping_max = 24.0
+scale_amount_min = 0.8
+scale_amount_max = 1.6
+color_ramp = SubResource("Gradient_alpha")

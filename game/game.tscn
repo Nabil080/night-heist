@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://dcolvdsxjf3px"]
+
+[ext_resource type="Script" uid="uid://chm33v33i68hb" path="res://game/game_flow.gd" id="1_flow"]
+[ext_resource type="PackedScene" path="res://levels/level_1.tscn" id="2_level1"]
+[ext_resource type="PackedScene" path="res://levels/level_2.tscn" id="3_level2"]
+[ext_resource type="PackedScene" path="res://levels/level_3.tscn" id="4_level3"]
+[ext_resource type="Script" uid="uid://ckfav77trcj81" path="res://game/score_keeper.gd" id="5_score"]
+[ext_resource type="Script" uid="uid://dsubcmnj2t7wq" path="res://game/alert_music.gd" id="6_music"]
+[ext_resource type="PackedScene" path="res://interface/hud.tscn" id="7_hud"]
+[ext_resource type="PackedScene" path="res://interface/title_screen.tscn" id="8_title"]
+[ext_resource type="PackedScene" path="res://interface/end_screen.tscn" id="9_end"]
+[ext_resource type="PackedScene" path="res://interface/pause_screen.tscn" id="10_pause"]
+[ext_resource type="PackedScene" path="res://interface/banner.tscn" id="11_banner"]
+[ext_resource type="PackedScene" path="res://interface/debug/debug_menu.tscn" id="12_debug"]
+
+[node name="Game" type="Node" unique_id=31332059]
+script = ExtResource("1_flow")
+levels = Array[PackedScene]([ExtResource("2_level1"), ExtResource("3_level2"), ExtResource("4_level3")])
+
+[node name="LevelHolder" type="Node" parent="." unique_id=276340482]
+unique_name_in_owner = true
+
+[node name="HUD" parent="." unique_id=794827275 instance=ExtResource("7_hud")]
+unique_name_in_owner = true
+
+[node name="ScoreKeeper" type="Node" parent="." unique_id=702449221 node_paths=PackedStringArray("hud")]
+unique_name_in_owner = true
+script = ExtResource("5_score")
+hud = NodePath("../HUD")
+
+[node name="AlertMusic" type="Node" parent="." unique_id=1758546445]
+script = ExtResource("6_music")
+
+[node name="Banner" parent="." unique_id=1799204746 instance=ExtResource("11_banner")]
+unique_name_in_owner = true
+
+[node name="TitleScreen" parent="." unique_id=8357367 instance=ExtResource("8_title")]
+unique_name_in_owner = true
+
+[node name="EndScreen" parent="." unique_id=1796809544 instance=ExtResource("9_end")]
+unique_name_in_owner = true
+
+[node name="PauseScreen" parent="." unique_id=1203373306 instance=ExtResource("10_pause")]
+unique_name_in_owner = true
+
+[node name="DebugMenu" parent="." unique_id=1256646906 node_paths=PackedStringArray("game_flow") instance=ExtResource("12_debug")]
+unique_name_in_owner = true
+game_flow = NodePath("..")
